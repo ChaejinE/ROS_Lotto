@@ -1,5 +1,5 @@
 |자료형|C++|Python|비고|
-|------|------|-------|
+|------|------|-------|------|
 |bool|uint8\_t|bool||
 |int8|int8\_t|int||
 |uint8|uint8\_t|int|uint8\[]은 python:string취급|
@@ -38,7 +38,8 @@ float32 imaginary
 - 위 내용을 적어주도록한다.
 ``` xml
 <build_depend>message_generation</build_depend>
-<run_depend>message_runtime</run_depend>
+# <run_depend>message_runtime</run_depend> , 최근 에러를 보니 exec 으로 replace됐다고 한다.
+<exec_depend>message_runtime</exec_depend>
 ```
 - package.xml 파일에 두 줄을 추가해준다.
 - ROS가 언어별 메시지 코드를 생성할 수 있도록 **새로운 메시지 정의**를 **빌드 시스템에 알려주고자 하는 과정**이다.

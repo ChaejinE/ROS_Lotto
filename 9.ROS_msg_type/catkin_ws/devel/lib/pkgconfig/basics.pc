@@ -3,6 +3,6 @@ prefix=/home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/devel
 Name: basics
 Description: Description of basics
 Version: 0.0.0
-Cflags: 
+Cflags: -I/home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/devel/include
 Libs: -L${prefix}/lib 
-Requires: 
+Requires: message_runtime
