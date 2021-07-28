@@ -68,17 +68,16 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
-# Special rule for the target install/local
-install/local: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
 
-# Special rule for the target install/local
-install/local/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
-.PHONY : install/local/fast
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # Special rule for the target test
 test:
@@ -101,6 +100,18 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
+# Special rule for the target install/local
+install/local: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local
+
+# Special rule for the target install/local
+install/local/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
+	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+.PHONY : install/local/fast
+
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
@@ -111,17 +122,6 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
 
 # Special rule for the target install
 install: preinstall
@@ -168,19 +168,409 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-basics/CMakeFiles/_catkin_empty_exported_target.dir/rule:
-	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/_catkin_empty_exported_target.dir/rule
-.PHONY : basics/CMakeFiles/_catkin_empty_exported_target.dir/rule
+basics/CMakeFiles/basics_genpy.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/basics_genpy.dir/rule
+.PHONY : basics/CMakeFiles/basics_genpy.dir/rule
 
 # Convenience name for target.
-_catkin_empty_exported_target: basics/CMakeFiles/_catkin_empty_exported_target.dir/rule
+basics_genpy: basics/CMakeFiles/basics_genpy.dir/rule
 
-.PHONY : _catkin_empty_exported_target
+.PHONY : basics_genpy
 
 # fast build rule for target.
-_catkin_empty_exported_target/fast:
-	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/_catkin_empty_exported_target.dir/build.make basics/CMakeFiles/_catkin_empty_exported_target.dir/build
-.PHONY : _catkin_empty_exported_target/fast
+basics_genpy/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/basics_genpy.dir/build.make basics/CMakeFiles/basics_genpy.dir/build
+.PHONY : basics_genpy/fast
+
+# Convenience name for target.
+basics/CMakeFiles/basics_generate_messages_py.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/basics_generate_messages_py.dir/rule
+.PHONY : basics/CMakeFiles/basics_generate_messages_py.dir/rule
+
+# Convenience name for target.
+basics_generate_messages_py: basics/CMakeFiles/basics_generate_messages_py.dir/rule
+
+.PHONY : basics_generate_messages_py
+
+# fast build rule for target.
+basics_generate_messages_py/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/basics_generate_messages_py.dir/build.make basics/CMakeFiles/basics_generate_messages_py.dir/build
+.PHONY : basics_generate_messages_py/fast
+
+# Convenience name for target.
+basics/CMakeFiles/basics_generate_messages_nodejs.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/basics_generate_messages_nodejs.dir/rule
+.PHONY : basics/CMakeFiles/basics_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+basics_generate_messages_nodejs: basics/CMakeFiles/basics_generate_messages_nodejs.dir/rule
+
+.PHONY : basics_generate_messages_nodejs
+
+# fast build rule for target.
+basics_generate_messages_nodejs/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/basics_generate_messages_nodejs.dir/build.make basics/CMakeFiles/basics_generate_messages_nodejs.dir/build
+.PHONY : basics_generate_messages_nodejs/fast
+
+# Convenience name for target.
+basics/CMakeFiles/basics_genlisp.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/basics_genlisp.dir/rule
+.PHONY : basics/CMakeFiles/basics_genlisp.dir/rule
+
+# Convenience name for target.
+basics_genlisp: basics/CMakeFiles/basics_genlisp.dir/rule
+
+.PHONY : basics_genlisp
+
+# fast build rule for target.
+basics_genlisp/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/basics_genlisp.dir/build.make basics/CMakeFiles/basics_genlisp.dir/build
+.PHONY : basics_genlisp/fast
+
+# Convenience name for target.
+basics/CMakeFiles/basics_generate_messages_lisp.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/basics_generate_messages_lisp.dir/rule
+.PHONY : basics/CMakeFiles/basics_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+basics_generate_messages_lisp: basics/CMakeFiles/basics_generate_messages_lisp.dir/rule
+
+.PHONY : basics_generate_messages_lisp
+
+# fast build rule for target.
+basics_generate_messages_lisp/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/basics_generate_messages_lisp.dir/build.make basics/CMakeFiles/basics_generate_messages_lisp.dir/build
+.PHONY : basics_generate_messages_lisp/fast
+
+# Convenience name for target.
+basics/CMakeFiles/basics_geneus.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/basics_geneus.dir/rule
+.PHONY : basics/CMakeFiles/basics_geneus.dir/rule
+
+# Convenience name for target.
+basics_geneus: basics/CMakeFiles/basics_geneus.dir/rule
+
+.PHONY : basics_geneus
+
+# fast build rule for target.
+basics_geneus/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/basics_geneus.dir/build.make basics/CMakeFiles/basics_geneus.dir/build
+.PHONY : basics_geneus/fast
+
+# Convenience name for target.
+basics/CMakeFiles/basics_generate_messages_eus.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/basics_generate_messages_eus.dir/rule
+.PHONY : basics/CMakeFiles/basics_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+basics_generate_messages_eus: basics/CMakeFiles/basics_generate_messages_eus.dir/rule
+
+.PHONY : basics_generate_messages_eus
+
+# fast build rule for target.
+basics_generate_messages_eus/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/basics_generate_messages_eus.dir/build.make basics/CMakeFiles/basics_generate_messages_eus.dir/build
+.PHONY : basics_generate_messages_eus/fast
+
+# Convenience name for target.
+basics/CMakeFiles/roscpp_generate_messages_py.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/roscpp_generate_messages_py.dir/rule
+.PHONY : basics/CMakeFiles/roscpp_generate_messages_py.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_py: basics/CMakeFiles/roscpp_generate_messages_py.dir/rule
+
+.PHONY : roscpp_generate_messages_py
+
+# fast build rule for target.
+roscpp_generate_messages_py/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/roscpp_generate_messages_py.dir/build.make basics/CMakeFiles/roscpp_generate_messages_py.dir/build
+.PHONY : roscpp_generate_messages_py/fast
+
+# Convenience name for target.
+basics/CMakeFiles/basics_generate_messages.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/basics_generate_messages.dir/rule
+.PHONY : basics/CMakeFiles/basics_generate_messages.dir/rule
+
+# Convenience name for target.
+basics_generate_messages: basics/CMakeFiles/basics_generate_messages.dir/rule
+
+.PHONY : basics_generate_messages
+
+# fast build rule for target.
+basics_generate_messages/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/basics_generate_messages.dir/build.make basics/CMakeFiles/basics_generate_messages.dir/build
+.PHONY : basics_generate_messages/fast
+
+# Convenience name for target.
+basics/CMakeFiles/roscpp_generate_messages_eus.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+.PHONY : basics/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_eus: basics/CMakeFiles/roscpp_generate_messages_eus.dir/rule
+
+.PHONY : roscpp_generate_messages_eus
+
+# fast build rule for target.
+roscpp_generate_messages_eus/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/roscpp_generate_messages_eus.dir/build.make basics/CMakeFiles/roscpp_generate_messages_eus.dir/build
+.PHONY : roscpp_generate_messages_eus/fast
+
+# Convenience name for target.
+basics/CMakeFiles/basics_generate_messages_cpp.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/basics_generate_messages_cpp.dir/rule
+.PHONY : basics/CMakeFiles/basics_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+basics_generate_messages_cpp: basics/CMakeFiles/basics_generate_messages_cpp.dir/rule
+
+.PHONY : basics_generate_messages_cpp
+
+# fast build rule for target.
+basics_generate_messages_cpp/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/basics_generate_messages_cpp.dir/build.make basics/CMakeFiles/basics_generate_messages_cpp.dir/build
+.PHONY : basics_generate_messages_cpp/fast
+
+# Convenience name for target.
+basics/CMakeFiles/roscpp_generate_messages_lisp.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+.PHONY : basics/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_lisp: basics/CMakeFiles/roscpp_generate_messages_lisp.dir/rule
+
+.PHONY : roscpp_generate_messages_lisp
+
+# fast build rule for target.
+roscpp_generate_messages_lisp/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/roscpp_generate_messages_lisp.dir/build.make basics/CMakeFiles/roscpp_generate_messages_lisp.dir/build
+.PHONY : roscpp_generate_messages_lisp/fast
+
+# Convenience name for target.
+basics/CMakeFiles/basics_gencpp.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/basics_gencpp.dir/rule
+.PHONY : basics/CMakeFiles/basics_gencpp.dir/rule
+
+# Convenience name for target.
+basics_gencpp: basics/CMakeFiles/basics_gencpp.dir/rule
+
+.PHONY : basics_gencpp
+
+# fast build rule for target.
+basics_gencpp/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/basics_gencpp.dir/build.make basics/CMakeFiles/basics_gencpp.dir/build
+.PHONY : basics_gencpp/fast
+
+# Convenience name for target.
+basics/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+.PHONY : basics/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_cpp: basics/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_cpp
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_cpp/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build.make basics/CMakeFiles/rosgraph_msgs_generate_messages_cpp.dir/build
+.PHONY : rosgraph_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+basics/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+.PHONY : basics/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_lisp: basics/CMakeFiles/std_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : std_msgs_generate_messages_lisp
+
+# fast build rule for target.
+std_msgs_generate_messages_lisp/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/std_msgs_generate_messages_lisp.dir/build.make basics/CMakeFiles/std_msgs_generate_messages_lisp.dir/build
+.PHONY : std_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+basics/CMakeFiles/basics_gennodejs.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/basics_gennodejs.dir/rule
+.PHONY : basics/CMakeFiles/basics_gennodejs.dir/rule
+
+# Convenience name for target.
+basics_gennodejs: basics/CMakeFiles/basics_gennodejs.dir/rule
+
+.PHONY : basics_gennodejs
+
+# fast build rule for target.
+basics_gennodejs/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/basics_gennodejs.dir/build.make basics/CMakeFiles/basics_gennodejs.dir/build
+.PHONY : basics_gennodejs/fast
+
+# Convenience name for target.
+basics/CMakeFiles/roscpp_generate_messages_cpp.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+.PHONY : basics/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_cpp: basics/CMakeFiles/roscpp_generate_messages_cpp.dir/rule
+
+.PHONY : roscpp_generate_messages_cpp
+
+# fast build rule for target.
+roscpp_generate_messages_cpp/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/roscpp_generate_messages_cpp.dir/build.make basics/CMakeFiles/roscpp_generate_messages_cpp.dir/build
+.PHONY : roscpp_generate_messages_cpp/fast
+
+# Convenience name for target.
+basics/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+.PHONY : basics/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_eus: basics/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_eus
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_eus/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build.make basics/CMakeFiles/rosgraph_msgs_generate_messages_eus.dir/build
+.PHONY : rosgraph_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+basics/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+.PHONY : basics/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_lisp: basics/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_lisp
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_lisp/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build.make basics/CMakeFiles/rosgraph_msgs_generate_messages_lisp.dir/build
+.PHONY : rosgraph_msgs_generate_messages_lisp/fast
+
+# Convenience name for target.
+basics/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+.PHONY : basics/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_cpp: basics/CMakeFiles/std_msgs_generate_messages_cpp.dir/rule
+
+.PHONY : std_msgs_generate_messages_cpp
+
+# fast build rule for target.
+std_msgs_generate_messages_cpp/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/std_msgs_generate_messages_cpp.dir/build.make basics/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
+.PHONY : std_msgs_generate_messages_cpp/fast
+
+# Convenience name for target.
+basics/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
+.PHONY : basics/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_nodejs: basics/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_nodejs/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build.make basics/CMakeFiles/rosgraph_msgs_generate_messages_nodejs.dir/build
+.PHONY : rosgraph_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+basics/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+.PHONY : basics/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+rosgraph_msgs_generate_messages_py: basics/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/rule
+
+.PHONY : rosgraph_msgs_generate_messages_py
+
+# fast build rule for target.
+rosgraph_msgs_generate_messages_py/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build.make basics/CMakeFiles/rosgraph_msgs_generate_messages_py.dir/build
+.PHONY : rosgraph_msgs_generate_messages_py/fast
+
+# Convenience name for target.
+basics/CMakeFiles/std_msgs_generate_messages_eus.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+.PHONY : basics/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_eus: basics/CMakeFiles/std_msgs_generate_messages_eus.dir/rule
+
+.PHONY : std_msgs_generate_messages_eus
+
+# fast build rule for target.
+std_msgs_generate_messages_eus/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/std_msgs_generate_messages_eus.dir/build.make basics/CMakeFiles/std_msgs_generate_messages_eus.dir/build
+.PHONY : std_msgs_generate_messages_eus/fast
+
+# Convenience name for target.
+basics/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+.PHONY : basics/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_nodejs: basics/CMakeFiles/std_msgs_generate_messages_nodejs.dir/rule
+
+.PHONY : std_msgs_generate_messages_nodejs
+
+# fast build rule for target.
+std_msgs_generate_messages_nodejs/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build.make basics/CMakeFiles/std_msgs_generate_messages_nodejs.dir/build
+.PHONY : std_msgs_generate_messages_nodejs/fast
+
+# Convenience name for target.
+basics/CMakeFiles/_basics_generate_messages_check_deps_Complex.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/_basics_generate_messages_check_deps_Complex.dir/rule
+.PHONY : basics/CMakeFiles/_basics_generate_messages_check_deps_Complex.dir/rule
+
+# Convenience name for target.
+_basics_generate_messages_check_deps_Complex: basics/CMakeFiles/_basics_generate_messages_check_deps_Complex.dir/rule
+
+.PHONY : _basics_generate_messages_check_deps_Complex
+
+# fast build rule for target.
+_basics_generate_messages_check_deps_Complex/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/_basics_generate_messages_check_deps_Complex.dir/build.make basics/CMakeFiles/_basics_generate_messages_check_deps_Complex.dir/build
+.PHONY : _basics_generate_messages_check_deps_Complex/fast
+
+# Convenience name for target.
+basics/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
+.PHONY : basics/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
+
+# Convenience name for target.
+roscpp_generate_messages_nodejs: basics/CMakeFiles/roscpp_generate_messages_nodejs.dir/rule
+
+.PHONY : roscpp_generate_messages_nodejs
+
+# fast build rule for target.
+roscpp_generate_messages_nodejs/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/roscpp_generate_messages_nodejs.dir/build.make basics/CMakeFiles/roscpp_generate_messages_nodejs.dir/build
+.PHONY : roscpp_generate_messages_nodejs/fast
+
+# Convenience name for target.
+basics/CMakeFiles/std_msgs_generate_messages_py.dir/rule:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f CMakeFiles/Makefile2 basics/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+.PHONY : basics/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+
+# Convenience name for target.
+std_msgs_generate_messages_py: basics/CMakeFiles/std_msgs_generate_messages_py.dir/rule
+
+.PHONY : std_msgs_generate_messages_py
+
+# fast build rule for target.
+std_msgs_generate_messages_py/fast:
+	cd /home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build && $(MAKE) -f basics/CMakeFiles/std_msgs_generate_messages_py.dir/build.make basics/CMakeFiles/std_msgs_generate_messages_py.dir/build
+.PHONY : std_msgs_generate_messages_py/fast
 
 # Help Target
 help:
@@ -189,13 +579,39 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... install/local"
-	@echo "... test"
-	@echo "... list_install_components"
-	@echo "... edit_cache"
-	@echo "... _catkin_empty_exported_target"
 	@echo "... rebuild_cache"
+	@echo "... basics_genpy"
+	@echo "... basics_generate_messages_py"
+	@echo "... basics_generate_messages_nodejs"
+	@echo "... test"
+	@echo "... basics_genlisp"
+	@echo "... basics_generate_messages_lisp"
+	@echo "... basics_geneus"
+	@echo "... basics_generate_messages_eus"
+	@echo "... list_install_components"
+	@echo "... roscpp_generate_messages_py"
+	@echo "... install/local"
+	@echo "... basics_generate_messages"
+	@echo "... roscpp_generate_messages_eus"
+	@echo "... edit_cache"
+	@echo "... basics_generate_messages_cpp"
+	@echo "... roscpp_generate_messages_lisp"
+	@echo "... basics_gencpp"
+	@echo "... rosgraph_msgs_generate_messages_cpp"
+	@echo "... std_msgs_generate_messages_lisp"
+	@echo "... basics_gennodejs"
+	@echo "... roscpp_generate_messages_cpp"
 	@echo "... install"
+	@echo "... rosgraph_msgs_generate_messages_eus"
+	@echo "... rosgraph_msgs_generate_messages_lisp"
+	@echo "... std_msgs_generate_messages_cpp"
+	@echo "... rosgraph_msgs_generate_messages_nodejs"
+	@echo "... rosgraph_msgs_generate_messages_py"
+	@echo "... std_msgs_generate_messages_eus"
+	@echo "... std_msgs_generate_messages_nodejs"
+	@echo "... _basics_generate_messages_check_deps_Complex"
+	@echo "... roscpp_generate_messages_nodejs"
+	@echo "... std_msgs_generate_messages_py"
 .PHONY : help
 
 
