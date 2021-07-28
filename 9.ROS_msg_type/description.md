@@ -76,3 +76,15 @@ generate_messages(
 - 이로써 사용자 메시지에 대해 알아야하는 **모든 것**을 catkin에게 알려주었다. catkin\_make 를 실행하면 된다.
 - catkin\_make 실행 시 .msg 확장자가 제거된 형태로 메시지 정의 파일과 동일한 이름을 가지는 메시지 자료형을 생성한다. (관습상 ROS 자료형은 대문자 사용)
 
+## 새로운 메시지 사용 방법
+```python
+import rospy
+from basics.msg import Complex
+from random import random
+
+rospy.init_node("message_publisher")
+pub = rospy.Publisher("compldex", Complex)
+rate = rospy.Rate(2)
+while not rospy.is_shutdown():
+    msg = Complex()
+
