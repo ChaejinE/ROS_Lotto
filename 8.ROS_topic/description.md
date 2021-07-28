@@ -136,6 +136,14 @@ rospy.spin()
 - 이 함수는 노드가 종료될 준비가 될 경우에만 제어를 반환한다.
   - While 반복문 정의를 회피할 수 있는 유용한 방법이다.
   - ROS가 반드시 실행되는 main thread를 넘겨받을 필요가 없는 것이다.
+- [참고1](https://gnaseel.tistory.com/31)
+  - spin은 queue를 사용해서 먼저 요청된 콜백함수부터 처리한다. 또한, 노드가 정지되기 전까지 무한루프 처럼 동작하여 콜백함수를 끊임없이 처리한다.
+- [참고2](https://bigbigpark.tistory.com/29)
+  - ros에서 msg가 토픽으로 수신되면 그것을 queue에 쌓는다. 그 후 Subscriber의 spin 메소드를 통해서 queue에 있는 메세지를 처리하도록 구성되어있다.
+- [참고3](https://stella47.tistory.com/111)
+  - 새 메시지가 도착하면 ROS는 콜백 함수를 부를 수 있기 전까지 queue에 계속 저장해둔다고한다. 메시지 큐가 가득차면 큐의 가장 오래된 메시지를 지우고 넣는다.
+  - 노드가 꺼지기 전까지 ROS에게 대기를 요청하고, 콜백을 실행할 권한을 요청한다.
+- 종합해서 생각해보자면, spin은 queue에 쌓여있는 data를 처리할 **callback을 기억한채로 ROS에게 권한을 요청해서 승인 받을 시 이 callback을 호출**하는데, 노드가 죽을 때까지 **이 행위를 무한 반복**한다.
 ```shell
 rosrun basics topic_subscriber.py
 ```
