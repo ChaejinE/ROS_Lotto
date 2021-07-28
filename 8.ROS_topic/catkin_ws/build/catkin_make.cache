@@ -1,0 +1,2 @@
+basics
+-DCATKIN_DEVEL_PREFIX=/home/cjlotto/git_clone/ROS_Lotto/8.ROS_topic/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/cjlotto/git_clone/ROS_Lotto/8.ROS_topic/catkin_ws/install -G Unix Makefiles
