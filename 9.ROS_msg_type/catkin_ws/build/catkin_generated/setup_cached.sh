@@ -7,8 +7,4 @@
 # new environment variables
 
 # modified environment variables
-export CMAKE_PREFIX_PATH="/home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/devel:$CMAKE_PREFIX_PATH"
-export LD_LIBRARY_PATH="/home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/devel/lib:$LD_LIBRARY_PATH"
 export PWD='/home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/build'
-export ROSLISP_PACKAGE_DIRECTORIES='/home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/devel/share/common-lisp'
-export ROS_PACKAGE_PATH="/home/cjlotto/git_clone/ROS_Lotto/9.ROS_msg_type/catkin_ws/src:$ROS_PACKAGE_PATH"
