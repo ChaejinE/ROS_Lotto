@@ -1,0 +1,9 @@
+<launch>
+  <node name="messege_publisher" pkg="basics" 
+   type="message_publisher.py" output="screen" />
+
+  <node name="message_subscriber" pkg="basics"
+   type="message_subscriber.py" output="screen" />
+
+</launch>
+
