@@ -109,7 +109,7 @@ catkin_package(
 #  LIBRARIES basics
 #  CATKIN_DEPENDS rospy
 #  DEPENDS system_lib
-   CATKIN_DEPENDS message_runtime
+  CATKIN_DEPENDS message_runtime
 )
 
 ###########
