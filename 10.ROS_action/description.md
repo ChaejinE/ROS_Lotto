@@ -183,3 +183,61 @@ rosrun basics simple_action_client.py
 Time elapsed: 5.002919
 ```
 
+## 7. 보다 복잡한 Action Server
+- fancy\_action\_server.py
+```shell
+import rospy
+
+import time
+import actionlib
+from basics.msg import TimerAction, TimerGoal, TimerResult, TimerFeedback
+
+def do_timer(goal):
+    start_time = time.time()
+    update_count = 0
+
+    if goal.time_to_wait.to_sec() > 60.0:
+        result = TimerResult()
+        result.time_elapsed = rospy.Duration.from_sec(time.time() - start_time)
+        result.updates_sent = update_count
+        server.set_aborted(result, "Timer aborted due to too-long wait")
+        return
+
+    while (time.time() - start_time) < goal.time_to_wait.to_sec():
+        if server.is_preempt_requested():
+            result = TimerResult()
+            result.time_elapsed = \
+                    rospy.Duration.from_sec(time.time() - start_time)
+            result.updates_sent = update_count
+            server.set_preempted(result, "Timer preempted")
+            return
+
+        feedback = TimerFeedback()
+        feedback.time_elapsed = rospy.Duration.from_sec(time.time() - start_time)
+        feedback.time_remaining = goal.time_to_wait - feedback.time_elapsed
+        server.publish_feedback(feedback)
+        update_count += 1
+
+        time.sleep(0.1)
+
+    result = TimerResult()
+    result.time_elapsed = rospy.Duration.from_sec(time.time() - start_time)
+    result.updates_sent = update_count
+    server.set_succeeded(result, "Timer completed successfully")
+
+
+rospy.init_node("timer_action_server")
+server = actionlib.SimpleActionServer("timer", TimerAction, do_timer, False)
+server.start()
+rospy.spin()
+```
+- update\_count : feedback을 몇번 발행하는지 추적하는 변수
+- set\_aborted() : 60초 이상으로 goal을 설정했으면, goal을 명시적으로 중지한다. 메시지도 함께 보내서 중단됐음을 알린다.
+  - set\_succeeded() 처럼 result를 포함한다.
+  - 단순 오류 처리 코드를 위함으로 보인다.
+- while문 : 요청 시간 동안 한 번에 일시 정지하는 대신에 조금씩 일시 정지하면서 while 반복문을 돈다.
+- is\_preempt\_requested() : 선점을 확인한다. client가 목표 추적을 멈추도록 요청했으면 True를 반환한다.
+  - 다른 client가 새로운 목표를 보냈을 때도 일어날 수 있다.
+- set\_preempted() : 결과를 채우고 status 를 문자열로 제공한다.
+- TimerFeedback 자료형을 사용해서 피드백을 보낸다. time\_elapsed, time\_remaining 필드를 채운다.
+- publish\_feedback() : client로 채운 필드를 보낸다.
