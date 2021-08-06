@@ -176,10 +176,155 @@ print("Time elapsed: %f"%(client.get_result().time_elapsed.to_sec()))
 - Reulst 도착 시 클라이언트 객체로부터 결과를 검색해서 정의한 time\_elapsed 필드를 출력하게 된다.
 
 ## 6. Client 예상 결과 확인
+
 ```shell
 rosrun basics simple_action_client.py
 ```
 ```shell
 Time elapsed: 5.002919
 ```
+
+## 7. 보다 복잡한 Action Server
+- fancy\_action\_server.py
+```shell
+import rospy
+
+import time
+import actionlib
+from basics.msg import TimerAction, TimerGoal, TimerResult, TimerFeedback
+
+def do_timer(goal):
+    start_time = time.time()
+    update_count = 0
+
+    if goal.time_to_wait.to_sec() > 60.0:
+        result = TimerResult()
+        result.time_elapsed = rospy.Duration.from_sec(time.time() - start_time)
+        result.updates_sent = update_count
+        server.set_aborted(result, "Timer aborted due to too-long wait")
+        return
+
+    while (time.time() - start_time) < goal.time_to_wait.to_sec():
+        if server.is_preempt_requested():
+            result = TimerResult()
+            result.time_elapsed = \
+                    rospy.Duration.from_sec(time.time() - start_time)
+            result.updates_sent = update_count
+            server.set_preempted(result, "Timer preempted")
+            return
+
+        feedback = TimerFeedback()
+        feedback.time_elapsed = rospy.Duration.from_sec(time.time() - start_time)
+        feedback.time_remaining = goal.time_to_wait - feedback.time_elapsed
+        server.publish_feedback(feedback)
+        update_count += 1
+
+        time.sleep(0.1)
+
+    result = TimerResult()
+    result.time_elapsed = rospy.Duration.from_sec(time.time() - start_time)
+    result.updates_sent = update_count
+    server.set_succeeded(result, "Timer completed successfully")
+
+
+rospy.init_node("timer_action_server")
+server = actionlib.SimpleActionServer("timer", TimerAction, do_timer, False)
+server.start()
+rospy.spin()
+```
+- update\_count : feedback을 몇번 발행하는지 추적하는 변수
+- set\_aborted() : 60초 이상으로 goal을 설정했으면, goal을 명시적으로 중지한다. 메시지도 함께 보내서 중단됐음을 알린다.
+  - set\_succeeded() 처럼 result를 포함한다.
+  - 단순 오류 처리 코드를 위함으로 보인다.
+- while문 : 요청 시간 동안 한 번에 일시 정지하는 대신에 조금씩 일시 정지하면서 while 반복문을 돈다.
+- is\_preempt\_requested() : 선점을 확인한다. client가 목표 추적을 멈추도록 요청했으면 True를 반환한다.
+  - 다른 client가 새로운 목표를 보냈을 때도 일어날 수 있다.
+- set\_preempted() : 결과를 채우고 status 를 문자열로 제공한다.
+- TimerFeedback 자료형을 사용해서 피드백을 보낸다. time\_elapsed, time\_remaining 필드를 채운다.
+- publish\_feedback() : client로 채운 필드를 보낸다. update\_count를 증가시킴으로써 갱신했다는 사실을 반영한다.
+- while 문을 통과했다는 것은 요청한 기간동안 성공적인 임무를 수행한 것이므로 SimpleActionServer 예제와 마찬가지로 Result 필드를 채워주고 set\_succeeded로 성공한 결과를 보내준다.
+- 나머지는 노드를 초기화하고, ActionServer를 생성해서 시작한다음 목표를 기다리는 코드다.
+
+## 8. 보다 복잡한 Action 사용 Client
+```python
+import rospy
+
+import time
+import actionlib
+from basics.msg import TimerAction, TimerGoal, TimerReulst, TimerFeedback
+
+def feedback_cb(feedback):
+    print("[Feedback] Time elapsed : %f"%(feedback.time_elapsed.to_sec()))
+    print("[Feedback] Time remaining : %f"%(feedback.time_remaining.to_sec()))
+
+rospy.init_node("timer_action_client")
+client = actionlib.SimpleActionClient("timer", TimerAction)
+client.wait_for_server()
+
+goal = TimerGoal()
+goal.time_to_wait = rospy.Duration.from_sec(5.0)
+
+# 서버측 중단 테스트
+# goal.time_to_wait = rospy.Duration.from_sec(500.0)
+client.send_goal(goal, feedback_cb=feedback_cb)
+
+# 목표 선점 Test
+# time.sleep(3.0)
+# client.cancel_goal()
+
+client.wait_for_result()
+print("[Result] State : %d"%(client.get_status()))
+print("[Result] Status : %s"%(client.get_goal_status_text()))
+print("[Result] Time elapsed : %f"%(client.get_result().time_elapsed.to_sec()))
+print("[Result] Updates sent : %d"%(client.get_result().updates_sent))
+```
+- feedback 메시지를 받을 때 호출될 feedback 콜백 함수를 정의한다.
+- send\_goal 호출하면서 feedback\_cb 키워드 인자로 피드백 콜백을 전달하여 등록한다.
+- 10개의 가능한 상태중 PREEMPTED=2, SUCCEEDED=3, ABORTED=4 세 개의 상태를 확인한다.
+
+## 8. 예상 결과 확인
+- Test 주석 해제 하지 않고 Test
+```shell
+rosrun basics fancy_action_server.py
+rosrun basics fancy_action_client.py
+```
+
+```shell
+[Feedback] Time remaining : 0.184188
+[Feedback] Time elapsed : 4.916145
+[Feedback] Time remaining : 0.083855
+[Result] State : 3
+[Result] Status : Timer completed successfully
+[Result] Time elapsed : 5.016475
+[Result] Updates sent : 50
+```
+- 정상 작동 후 성공 했다는 State 확인했다.
+- 서버측 중단 테스트 주석 해제 하고 Test 해보자
+
+```shell
+[Result] State : 4
+[Result] Status : Timer aborted due to too-long wait
+[Result] Time elapsed : 0.000017
+[Result] Updates sent : 0
+```
+- 서버는 즉시 목표를 중단한다. ABORTED=4
+- 목표 선점 Test를 해보자.
+
+```shell
+[Feedback] Time elapsed : 2.831357
+[Feedback] Time remaining : 2.168643
+[Feedback] Time elapsed : 2.932367
+[Feedback] Time remaining : 2.067633
+[Result] State : 2
+[Result] Status : Timer preempted
+[Result] Time elapsed : 3.033560
+[Result] Updates sent : 30
+```
+- 3초뒤에 client.cancel\_goal() 을 통해 클라이언트가 잠시 일시 정지한 후 서버가 목표를 선점하도록 요청하는 것이다. 
+- 서버가 선점을 한다는 것은 client의 goal 취소 신호를 받아 들였다는 것으로 이해하면 될 것 같다.
+
+## 9. 요약
+- Action은 ROS 메시지 기반으로 만들어졌으며 **비동기**적이며 서버와 클라이언트 양단에서 **논블로킹** 프로그래밍이 가능하다.
+- 로봇에서는 긴 시간이 소요되고 목표를 추적하는 행위를 구현하는 것이 흔하기 때문에 Action이 적합한 경우가 많다.
+- actionlib API 문서롤 참조하면 더 복잡한 액션 사용 방법을 확인할 수 있다.
 
